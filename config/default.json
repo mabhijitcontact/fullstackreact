@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://abhijit1975:abhijit1975@abhiconnector.kvsom.mongodb.net/<dbname>?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://abhijit1975:abhijit1975@abhiconnector.kvsom.mongodb.net/<dbname>?retryWrites=true&w=majority",
+  "jwtToken": "mySecret0852408"
 }

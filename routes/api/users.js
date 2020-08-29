@@ -2,10 +2,14 @@ const express = require("express");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+const config = require("config");
+
 const { check, validationResult } = require("express-validator/check");
 
 //adding user Models
 const User = require("../../models/User");
+const { JsonWebTokenError } = require("jsonwebtoken");
 
 /* 
     @route      GET api/users
@@ -48,11 +52,19 @@ router.post("/", [
         // encrypt password
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
-        await user.save();
-        // Return json token
+        await user.save(); //saving user in MongoDB.
 
-        console.log(req.body);
-        res.send("User Saved");
+        // Return json token
+        const payload = {
+            id: user.id
+        }
+
+        jwt.sign(payload, config.get("jwtToken"),
+            { expiresIn: 360000 },
+            (err, token) => {
+                if (err) throw err;
+                res.json({ token });
+            });
     }
     catch (err) {
         console.log(err.message);
