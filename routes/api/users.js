@@ -56,7 +56,9 @@ router.post("/", [
 
         // Return json token
         const payload = {
-            id: user.id
+            user: {
+                id: user.id
+            }
         }
 
         jwt.sign(payload, config.get("jwtToken"),
@@ -70,7 +72,6 @@ router.post("/", [
         console.log(err.message);
         res.status(500).send('Server error');
     }
-
 });
 
 module.exports = router;
